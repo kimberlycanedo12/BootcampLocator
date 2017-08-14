@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BootcampLocator</string>
+
+    <string name="google_api_key">AIzaSyAmFWtZ6K1xvu7CWwCvJVttQ-x5HEwzj3A</string>
+
+    <string name="zip_hint">Please enter zip code</string>
+
+
+    <string name="action_clear">Clear</string>
+    <string name="action_circle">Draw Circle</string>
+    <string name="action_overlay">Draw Overlay</string>
+    <string name="action_polygon">Draw Polygon</string>
+    <string name="action_traffic">Toggle Traffic</string>
+    <string name="action_cycle_map_type">Cycle Map Type</string>
+
+</resources>
