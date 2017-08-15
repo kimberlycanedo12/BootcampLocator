@@ -1,16 +1,15 @@
 package com.example.kimberlycaedo.bootcamplocator;
 
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Kimberly Cañedo on 14/08/2017.
+ * Created by Kimberly Cañedo on 15/08/2017.
  */
 
-class LocationViewHolder extends RecyclerView.ViewHolder {
+class LocationViewHolder  extends RecyclerView.ViewHolder {
 
     private ImageView locationImage;
     private TextView locationTitle;

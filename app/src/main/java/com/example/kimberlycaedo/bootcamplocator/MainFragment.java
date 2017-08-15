@@ -1,10 +1,8 @@
 package com.example.kimberlycaedo.bootcamplocator;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,42 +13,36 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
- * Created by Kimberly Cañedo on 10/08/2017.
+ * Created by Kimberly Cañedo on 15/08/2017.
  */
 
-
-public class MapFragment extends SupportMapFragment implements OnMapReadyCallback {
+public class MainFragment extends SupportMapFragment implements OnMapReadyCallback {
 
     GoogleMap mGoogleMap;
     private MarkerOptions userMarker;
     private String zip;
     private LocationListFragments locationsListFragments;
 
-    public MapFragment() {
+
+    public MainFragment() {
     }
 
-    public static MapFragment newInstance() {
-        MapFragment fragment = new MapFragment();
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
         return fragment;
     }
 
@@ -68,16 +60,16 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
 
-        locationsListFragments =  (LocationListFragments) getActivity()
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.container_location_list);
-        if(locationsListFragments == null){
+
+        locationsListFragments = (LocationListFragments)getActivity().getSupportFragmentManager().findFragmentById(R.id.container_location_list);
+
+        if (locationsListFragments == null) {
             locationsListFragments = LocationListFragments.newInstance();
-            getActivity().
-                    getSupportFragmentManager().
-                    beginTransaction().
-                    add(R.id.container_location_list, locationsListFragments).
-                    commit();
+            getActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container_location_list, locationsListFragments)
+                    .commit();
         }
 
         final EditText zipText = (EditText) v.findViewById(R.id.zip_text);
@@ -160,6 +152,5 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private void showList(){
         getActivity().getSupportFragmentManager().beginTransaction().show(locationsListFragments).commit();
     }
-
 
 }

@@ -3,9 +3,11 @@ package com.example.kimberlycaedo.bootcamplocator;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -24,14 +26,14 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-
+    final int PERMISSION_LOCATION = 111;
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
-    private MapFragment mainFragment;
+    private MainFragment mainFragment;
     public String zip = "";
 
     @Override
@@ -47,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .build();
 
 
-        mainFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.container_main);
+        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.container_main);
         if (mainFragment == null)
         {
-            mainFragment = MapFragment.newInstance();
+            mainFragment = MainFragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.container_main, mainFragment).commit();
 
         }
@@ -126,6 +128,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //  mGoogleMap.setTrafficEnabled( true );
         //  mGoogleMap.getUiSettings().setZoomControlsEnabled( true );
 
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startLocationServices();
+                    Log.v("KIMBERLY", "Permission Granted - starting services");
+                } else {
+                    //show a dialog saying something like, "I can't run your location dummy - you denied permission!"
+                    Log.v("KIMBERLY", "Permission not granted");
+                }
+            }
+        }
+    }
+
+    public void startLocationServices() {
+        Log.v("KIMBERLY", "Starting Location Services Called");
+
+        try {
+            LocationRequest req = LocationRequest.create().setPriority(LocationRequest.PRIORITY_LOW_POWER);
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, req, this);
+            Log.v("KIMBERLY", "Requesting location updates");
+        } catch (SecurityException exception) {
+            //Show dialog to user saying we can't get location unless they give app permission
+            Log.v("KIMBERLY", exception.toString());
+        }
     }
 
 }
